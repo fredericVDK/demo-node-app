@@ -44,7 +44,7 @@ pipeline {
             steps {
                 sh '''
                     sleep 15
-                    curl http://localhost:3000
+                    docker exec $CONTAINER_NAME node -e "require('http').get('http://127.0.0.1:3000', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))" || (docker logs $CONTAINER_NAME && exit 1)
                 '''
             }
         }
